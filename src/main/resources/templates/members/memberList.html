@@ -19,21 +19,27 @@
         <link href="/css/jumbotron-narrow.css" rel="stylesheet">
         <title>Hello, world!</title>
     </head>
-    <div class="jumbotron"><h1>HELLO SHOP</h1>
-        <p class="lead">회원 기능</p>
-        <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a></p>
-        <p class="lead">상품 기능</p>
-        <p>
-            <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">상품 목록</a></p>
-        <p class="lead">주문 기능</p>
-        <p>
-            <a class="btn btn-lg btn-info" href="/order">상품 주문</a>
-            <a class="btn btn-lg btn-info" href="/orders">주문 내역</a></p>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th> <th>도시</th> <th>주소</th> <th>우편번호</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.address?.city}"></td>
+                <td th:text="${member.address?.street}"></td>
+                <td th:text="${member.address?.zipcode}"></td>
+            </tr>
+            </tbody>
+
+        </table>
     </div>
-    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
 </html>
