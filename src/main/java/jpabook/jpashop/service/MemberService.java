@@ -72,4 +72,12 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+
+        // comand 와 query를 따로 분리해야 해서 따로 memver 자체를 리턴하지 않는다. 안되면 id 정도만 반환한다.
+    }
 }
