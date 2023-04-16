@@ -78,4 +78,32 @@ public class OrderRepository {
         " join fetch o.delivery d", Order.class)
             .getResultList();
     }
+
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        // JPA에 있는 fetch join
+        // XToOne 관계는 아무리 많이해도 페칭 잘 된다.
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public List<Order> findAllWithItem() {
+        // distinct 활용하면 order가 뻥튀기 되는걸 방지해준다.
+        // DB에 distinct을 날려주기는 하나 그것만 하는 것은 아니다.
+        // JPA에서 자체적으로 같은 id 값이면 하나를 제거한다.
+        // TODO : 그런데 페이징이 안된다!!(setFirstResult, setMaxResult)
+        // TODO : XtoMany 는 페치 조인 한개 이상 안하는게 좋다.
+        return em.createQuery(
+                        "select distinct o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d" +
+                                " join fetch o.orderItems oi" +
+                                " join fetch oi.item i", Order.class)
+                .getResultList();
+    }
 }
